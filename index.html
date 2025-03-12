@@ -2,9 +2,12 @@
 <html lang="en" class="light-mode">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#3b82f6">
     <title>Digital Sketch Board</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="src/css/main.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -21,7 +24,6 @@
             </button>
         </div>
     </header>
-
     <main class="workspace">
         <aside class="toolbox">
             <section class="tool-section">
@@ -30,18 +32,17 @@
                     <label for="size-slider">Canvas Resolution</label>
                     <div class="slider-container">
                         <input type="range" id="size-slider" min="1" max="100" value="16">
-                        <output for="size-slider" id="size-value">16 × 16</output>
+                        <output id="size-value">16 × 16</output>
                     </div>
                 </div>
                 <div class="setting-group">
                     <label for="brush-size-slider">Brush Size</label>
                     <div class="slider-container">
                         <input type="range" id="brush-size-slider" min="1" max="10" value="1">
-                        <output for="brush-size-slider" id="brush-size-value">1</output>
+                        <output id="brush-size-value">1</output>
                     </div>
                 </div>
             </section>
-
             <section class="tool-section">
                 <h2>Drawing Tools</h2>
                 <div class="tool-buttons">
@@ -82,11 +83,10 @@
                 <button id="clear-btn" class="action-btn">Clear Canvas</button>
             </section>
         </aside>
-
         <section class="canvas-area">
             <div id="grid" class="drawing-grid"></div>
         </section>
     </main>
-    <script src="script.js"></script>
+    <script type="module" src="src/js/app.js"></script>
 </body>
 </html>

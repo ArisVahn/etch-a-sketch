@@ -1,0 +1,153 @@
+/**
+ * Digital Sketch Board - Base Styles
+ * Contains theme variables, resets, and base styles
+ */
+
+/* Theme variables - Light mode defaults */
+:root {
+    /* Colors */
+    --bg-color: #f8fafc;
+    --main-bg: #ffffff;
+    --panel-bg: #f1f5f9;
+    --grid-bg: #ffffff;
+    --grid-border: #e2e8f0;
+    --text-color: #1e293b;
+    --secondary-text: #64748b;
+    --accent-color: #3b82f6;
+    --accent-hover: #2563eb;
+    --accent-active: #1d4ed8;
+    --danger-color: #ef4444;
+    --danger-hover: #dc2626;
+    --shadow-color: rgba(0,0,0,0.1);
+    --primary-color: #3b82f6;
+    --secondary-color: #60a5fa;
+    --hover-color: #dbeafe;
+    --active-color: #bfdbfe;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.05), 0 1px 4px rgba(0,0,0,0.03);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.08), 0 2px 4px -1px rgba(0,0,0,0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.05);
+    --shadow-focus: 0 0 0 3px rgba(59, 130, 246, 0.4);
+    
+    --border-color: #e2e8f0;
+    --border-radius: 12px;
+    --border-radius-sm: 8px;
+    --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Typography */
+    --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    
+    /* Layout */
+    --header-height: 60px;
+    --toolbox-width: 290px;
+    --content-max-width: 1400px;
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 0.75rem;
+    --spacing-lg: 1.25rem;
+    --spacing-xl: 1.75rem;
+}
+
+/* Dark mode theme variables */
+html.dark-mode {
+    --bg-color: #0f172a;
+    --main-bg: #1e293b;
+    --panel-bg: #1e293b;
+    --grid-bg: #0f172a;
+    --grid-border: #334155;
+    --text-color: #f8fafc;
+    --secondary-text: #94a3b8;
+    --accent-color: #60a5fa;
+    --accent-hover: #3b82f6;
+    --accent-active: #2563eb;
+    --danger-color: #f87171;
+    --danger-hover: #ef4444;
+    --shadow-color: rgba(0,0,0,0.3);
+    --border-color: #334155;
+    --hover-color: #334155;
+    --active-color: #475569;
+}
+
+/* Reset and base styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-size: 15px;
+    line-height: 1.6;
+    letter-spacing: -0.01em;
+    overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Main workspace layout */
+.workspace {
+    display: grid;
+    grid-template-columns: var(--toolbox-width) 1fr;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-md) var(--spacing-xl);
+    height: calc(100vh - var(--header-height));
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* Animation definitions */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.workspace {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+    :root {
+        --toolbox-width: 260px;
+    }
+}
+
+@media (max-width: 900px) {
+    .workspace {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+        gap: var(--spacing-md);
+        height: auto;
+        overflow-y: auto;
+        padding: var(--spacing-md);
+    }
+}
+
+@media (max-width: 600px) {
+    :root {
+        --header-height: 60px;
+    }
+    
+    .workspace {
+        padding: var(--spacing-md);
+    }
+}

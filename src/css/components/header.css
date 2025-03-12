@@ -1,0 +1,89 @@
+/**
+ * Digital Sketch Board - Header Styles
+ * Styles for the application header and theme toggle
+ */
+
+/* Header styles */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 var(--spacing-xl);
+    height: var(--header-height);
+    background-color: var(--main-bg);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    z-index: 10;
+    position: relative;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo-container h1 {
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-color);
+    letter-spacing: -0.03em;
+    background: linear-gradient(45deg, var(--accent-color), var(--accent-hover));
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* Theme toggle button */
+.theme-toggle {
+    margin-left: var(--spacing-md);
+}
+
+#theme-toggle-btn {
+    background-color: var(--bg-color);
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--text-color);
+    font-size: 1.25rem;
+    padding: 0;
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+
+#theme-toggle-btn:hover {
+    transform: translateY(-3px) rotate(12deg);
+    box-shadow: var(--shadow-md);
+}
+
+#theme-toggle-btn:active {
+    transform: translateY(0) rotate(0);
+}
+
+html.light-mode .dark-icon,
+html.dark-mode .light-icon {
+    display: none;
+}
+
+html.dark-mode .dark-icon,
+html.light-mode .light-icon {
+    display: inline-block;
+    animation: fadeIn 0.3s ease forwards;
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+    .app-header {
+        padding: 0 var(--spacing-md);
+    }
+    
+    .logo-container h1 {
+        font-size: 1.25rem;
+    }
+}

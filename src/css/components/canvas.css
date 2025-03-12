@@ -1,0 +1,92 @@
+/**
+ * Digital Sketch Board - Canvas Styles
+ * Styles for the canvas area and drawing grid
+ */
+
+/* Canvas area */
+.canvas-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--main-bg);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-lg);
+    padding: var(--spacing-md);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    height: calc(100vh - var(--header-height) - var(--spacing-lg) * 2);
+}
+
+.canvas-area::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, var(--accent-color), var(--accent-hover));
+    z-index: 1;
+}
+
+.drawing-grid {
+    aspect-ratio: 1;
+    height: calc(100% - 20px);
+    background-color: white;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+    display: grid;
+    user-select: none;
+    border-radius: var(--border-radius-sm);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    position: relative;
+}
+
+.drawing-grid::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.03), transparent);
+    pointer-events: none;
+}
+
+.drawing-grid:hover {
+    box-shadow: var(--shadow-lg);
+}
+
+.grid-cell {
+    border: 1px solid var(--grid-border);
+    transition: background-color 0.15s ease;
+    position: relative;
+    min-width: 1px;
+    min-height: 1px;
+}
+
+.brush-preview {
+    outline-width: 2px;
+    outline-style: solid;
+    z-index: 1;
+    position: relative;
+    animation: pulseOutline 1.5s ease-in-out infinite;
+}
+
+@keyframes pulseOutline {
+    0% { outline-offset: 0; }
+    50% { outline-offset: 1px; }
+    100% { outline-offset: 0; }
+}
+
+/* Responsive styles */
+@media (max-width: 900px) {
+    .canvas-area {
+        height: 50vh;
+        min-height: 300px;
+    }
+}
+
+@media (max-width: 600px) {
+    .canvas-area {
+        padding: var(--spacing-md);
+    }
+}

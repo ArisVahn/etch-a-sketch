@@ -1,0 +1,14 @@
+/**
+ * Digital Sketch Board - Main Stylesheet
+ * This is the main stylesheet that imports all component styles
+ */
+
+/* Import base styles first */
+@import 'base.css';
+
+/* Import component styles */
+@import 'components/header.css';
+@import 'components/toolbox.css';
+@import 'components/controls.css';
+@import 'components/canvas.css';
+@import 'components/color-palette.css';

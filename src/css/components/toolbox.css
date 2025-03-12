@@ -1,0 +1,135 @@
+/**
+ * Digital Sketch Board - Toolbox Styles
+ * Styles for the toolbox panel and its components
+ */
+
+/* Toolbox panel */
+.toolbox {
+    background-color: var(--main-bg);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+    padding: var(--spacing-md);
+    height: calc(100vh - var(--header-height) - var(--spacing-lg) * 2);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-color) var(--panel-bg);
+    animation: scaleIn 0.4s ease forwards;
+}
+
+.toolbox::-webkit-scrollbar {
+    width: 6px;
+}
+
+.toolbox::-webkit-scrollbar-track {
+    background: var(--panel-bg);
+    border-radius: 10px;
+}
+
+.toolbox::-webkit-scrollbar-thumb {
+    background-color: var(--accent-color);
+    border-radius: 10px;
+}
+
+.toolbox:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Tool sections */
+.tool-section {
+    margin-bottom: var(--spacing-md);
+    position: relative;
+}
+
+.tool-section:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    bottom: calc(-1 * var(--spacing-md));
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        var(--border-color) 15%, 
+        var(--border-color) 85%, 
+        transparent);
+}
+
+.tool-section h2 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--secondary-text);
+    margin-bottom: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.tool-section h2::before {
+    content: '';
+    display: inline-block;
+    width: 3px;
+    height: 14px;
+    background-color: var(--accent-color);
+    border-radius: 2px;
+    margin-right: var(--spacing-xs);
+}
+
+/* Setting groups */
+.setting-group {
+    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-sm);
+    border-radius: var(--border-radius-sm);
+    transition: background-color 0.2s ease;
+}
+
+.setting-group:hover {
+    background-color: var(--panel-bg);
+}
+
+.setting-group label {
+    display: block;
+    margin-bottom: var(--spacing-sm);
+    font-weight: 500;
+    font-size: 0.925rem;
+    color: var(--text-color);
+}
+
+.slider-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-xs);
+}
+
+output {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--accent-color);
+    text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.setting-group:hover output {
+    transform: scale(1.05);
+}
+
+/* Responsive styles */
+@media (max-width: 900px) {
+    .toolbox {
+        position: static;
+        margin-bottom: var(--spacing-md);
+        height: auto;
+        max-height: 40vh;
+    }
+    
+    .tool-section {
+        margin-bottom: var(--spacing-md);
+    }
+}
