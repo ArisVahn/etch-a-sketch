@@ -1,13 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="light-mode">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Etch-a-Sketch</title>
+    <title>Digital Sketch Board</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="grid-container"></div>
+    <header class="app-header">
+        <div class="logo-container">
+            <h1>Digital Sketch Board</h1>
+        </div>
+        <div class="theme-toggle">
+            <button id="theme-toggle-btn" aria-label="Toggle theme">
+                <span class="light-icon">☀️</span>
+                <span class="dark-icon">🌙</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="workspace">
+        <aside class="toolbox">
+            <section class="tool-section">
+                <h2>Canvas Settings</h2>
+                <div class="setting-group">
+                    <label for="size-slider">Canvas Resolution</label>
+                    <div class="slider-container">
+                        <input type="range" id="size-slider" min="1" max="100" value="16">
+                        <output for="size-slider" id="size-value">16 × 16</output>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <label for="brush-size-slider">Brush Size</label>
+                    <div class="slider-container">
+                        <input type="range" id="brush-size-slider" min="1" max="10" value="1">
+                        <output for="brush-size-slider" id="brush-size-value">1</output>
+                    </div>
+                </div>
+            </section>
+
+            <section class="tool-section">
+                <h2>Drawing Tools</h2>
+                <div class="tool-buttons">
+                    <button id="color-mode" class="tool-btn active">
+                        <span class="tool-icon">🎨</span>
+                        <span>Color</span>
+                    </button>
+                    <div class="color-palette">
+                        <div class="color-option active" style="background-color: #000000" data-color="#000000"></div>
+                        <div class="color-option" style="background-color: #ffffff" data-color="#ffffff"></div>
+                        <div class="color-option" style="background-color: #ff0000" data-color="#ff0000"></div>
+                        <div class="color-option" style="background-color: #00ff00" data-color="#00ff00"></div>
+                        <div class="color-option" style="background-color: #0000ff" data-color="#0000ff"></div>
+                        <div class="color-option" style="background-color: #ffff00" data-color="#ffff00"></div>
+                        <div class="color-option" style="background-color: #ff00ff" data-color="#ff00ff"></div>
+                        <div class="color-option" style="background-color: #00ffff" data-color="#00ffff"></div>
+                        <div class="color-option" style="background-color: #ff8800" data-color="#ff8800"></div>
+                        <div class="color-option" style="background-color: #8800ff" data-color="#8800ff"></div>
+                    </div>
+                    <div class="custom-color-input">
+                        <span>Custom:</span>
+                        <input type="color" id="color-picker" value="#000000">
+                        <div id="color-display" class="color-display" style="background-color: #000000"></div>
+                    </div>
+                    <button id="rainbow-mode" class="tool-btn">
+                        <span class="tool-icon">🌈</span>
+                        <span>Rainbow</span>
+                    </button>
+                    <button id="darker-mode" class="tool-btn">
+                        <span class="tool-icon">🖌️</span>
+                        <span>Shade</span>
+                    </button>
+                    <button id="eraser-mode" class="tool-btn">
+                        <span class="tool-icon">⌫</span>
+                        <span>Eraser</span>
+                    </button>
+                </div>
+                <button id="clear-btn" class="action-btn">Clear Canvas</button>
+            </section>
+        </aside>
+
+        <section class="canvas-area">
+            <div id="grid" class="drawing-grid"></div>
+        </section>
+    </main>
     <script src="script.js"></script>
 </body>
 </html>
