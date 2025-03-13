@@ -87,14 +87,14 @@ export function adjustBrightness(color, amount) {
  * @returns {Array<{row: number, col: number}>} Array of affected cell coordinates
  */
 export function calculateAffectedCells(centerRow, centerCol, size, brushSize) {
-    const offset = Math.floor(brushSize / 2);
     const cells = [];
+    const radius = Math.floor(brushSize / 2);
     
     // Calculate bounds with clamping
-    const startRow = Math.max(0, centerRow - offset);
-    const endRow = Math.min(size - 1, centerRow + (brushSize - offset));
-    const startCol = Math.max(0, centerCol - offset);
-    const endCol = Math.min(size - 1, centerCol + (brushSize - offset));
+    const startRow = Math.max(0, centerRow - radius);
+    const endRow = Math.min(size - 1, centerRow + (brushSize - radius - 1));
+    const startCol = Math.max(0, centerCol - radius);
+    const endCol = Math.min(size - 1, centerCol + (brushSize - radius - 1));
     
     // Only iterate over cells that are actually in bounds
     for (let row = startRow; row <= endRow; row++) {

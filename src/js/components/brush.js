@@ -14,6 +14,7 @@ import { debounce, calculateAffectedCells } from '../utils/utils.js';
  * @param {number} gridSize - Size of the grid
  */
 export function showBrushPreview(centerRow, centerCol, appState, gridCells, gridSize) {
+    clearBrushPreview();
     const affectedCells = calculateAffectedCells(centerRow, centerCol, gridSize, appState.brushSize);
     const previewColor = getPreviewColor(appState);
     
