@@ -1,9 +1,28 @@
 /**
- * Digital Sketch Board - Toolbox Styles
- * Styles for the toolbox panel and its components
+ * Drawing Tools Panel
+ * 
+ * This component shows how to create a professional sidebar panel with:
+ * 
+ * 1. Structured Layout:
+ *    - Flexbox for vertical organization
+ *    - Custom scrollbar styling
+ *    - Section dividers with gradients
+ * 
+ * 2. Modern UI Elements:
+ *    - Smooth animations
+ *    - Visual depth with shadows
+ *    - Responsive spacing using CSS variables
+ * 
+ * 3. Interactive Elements:
+ *    - Hover effects
+ *    - Visual feedback
+ *    - Accessible design
  */
 
-/* Toolbox panel */
+/* Panel Container
+ * Creates a scrollable sidebar with custom styling.
+ * Uses flexbox for vertical layout and custom scrollbar for better visuals.
+ */
 .toolbox {
     background-color: var(--main-bg);
     border-radius: var(--border-radius);
@@ -15,11 +34,18 @@
     flex-direction: column;
     gap: var(--spacing-md);
     overflow-y: auto;
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 300px;
     scrollbar-width: thin;
     scrollbar-color: var(--accent-color) var(--panel-bg);
     animation: scaleIn 0.4s ease forwards;
 }
 
+/* Custom Scrollbar
+ * Modern styling for the scrollbar with color theming.
+ * Note: These are WebKit-specific properties.
+ */
 .toolbox::-webkit-scrollbar {
     width: 6px;
 }
@@ -34,17 +60,26 @@
     border-radius: 10px;
 }
 
+/* Panel Hover Effect
+ * Adds subtle movement and shadow on hover
+ */
 .toolbox:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-lg);
 }
 
-/* Tool sections */
+/* Tool Sections
+ * Each major group of controls with consistent spacing
+ */
 .tool-section {
     margin-bottom: var(--spacing-md);
     position: relative;
 }
 
+/* Section Dividers
+ * Creates a gradient line between sections using pseudo-element.
+ * The gradient fades out at the edges for a softer look.
+ */
 .tool-section:not(:last-child)::after {
     content: '';
     position: absolute;
@@ -59,6 +94,9 @@
         transparent);
 }
 
+/* Section Headers
+ * Modern heading style with accent bar and text formatting
+ */
 .tool-section h2 {
     font-size: 0.85rem;
     font-weight: 600;
@@ -71,6 +109,9 @@
     gap: var(--spacing-xs);
 }
 
+/* Header Accent
+ * Adds a small colored bar before each heading
+ */
 .tool-section h2::before {
     content: '';
     display: inline-block;
@@ -81,7 +122,9 @@
     margin-right: var(--spacing-xs);
 }
 
-/* Setting groups */
+/* Settings Groups
+ * Container for related controls with hover feedback
+ */
 .setting-group {
     margin-bottom: var(--spacing-md);
     padding: var(--spacing-sm);
@@ -93,21 +136,34 @@
     background-color: var(--panel-bg);
 }
 
+/* Setting Labels
+ * Clear text labels with proper spacing and wrapping
+ */
 .setting-group label {
     display: block;
     margin-bottom: var(--spacing-sm);
     font-weight: 500;
     font-size: 0.925rem;
     color: var(--text-color);
+    word-wrap: break-word;
+    white-space: normal;
 }
 
+/* Slider Containers
+ * Properly spaces and aligns range inputs
+ */
 .slider-container {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-sm);
     margin-top: var(--spacing-xs);
+    width: 100%;
+    min-width: 0;
 }
 
+/* Value Display
+ * Shows current slider values with emphasis
+ */
 output {
     font-weight: 600;
     font-size: 0.95rem;
@@ -120,16 +176,13 @@ output {
     transform: scale(1.05);
 }
 
-/* Responsive styles */
+/* Mobile Adjustments
+ * Adapts the toolbox layout for smaller screens
+ */
 @media (max-width: 900px) {
     .toolbox {
-        position: static;
-        margin-bottom: var(--spacing-md);
-        height: auto;
         max-height: 40vh;
-    }
-    
-    .tool-section {
+        height: auto;
         margin-bottom: var(--spacing-md);
     }
 }

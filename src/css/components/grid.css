@@ -1,0 +1,32 @@
+.canvas-area {
+    background-color: var(--panel-bg);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+    box-shadow: var(--shadow-md);
+    min-width: 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.drawing-grid {
+    display: grid;
+    aspect-ratio: 1;
+    width: 100%;
+    max-height: calc(100vh - var(--header-height) - var(--spacing-xl) * 2);
+    background-color: var(--grid-bg);
+    border: 1px solid var(--grid-border);
+    border-radius: var(--border-radius-sm);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.cell {
+    aspect-ratio: 1;
+    border: 0.5px solid var(--grid-border);
+    transition: background-color 0.2s ease;
+    cursor: crosshair;
+}
+
+.cell.brush-preview {
+    background-color: var(--accent-color);
+    opacity: 0.3;
+}
