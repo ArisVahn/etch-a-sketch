@@ -1,51 +1,76 @@
 /**
- * Digital Sketch Board - Color Palette Styles
- * Styles for the color palette and color picker
+ * Color Palette Component
+ * 
+ * This component demonstrates several modern CSS techniques:
+ * 
+ * 1. CSS Grid: We use grid layout to create a responsive 5×2 color palette
+ * 2. Custom Properties: We use CSS variables (--spacing-sm, etc.) for consistent spacing
+ * 3. Pseudo-elements: We use ::after for overlays and ::before for indicators
+ * 4. Transforms: Scale and translate for smooth hover/active effects
+ * 
+ * The circular design with subtle gradients gives it a modern, polished look!
  */
 
-/* Color palette */
 .color-palette {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: var(--spacing-xs);
+    gap: 6px;
     margin: var(--spacing-sm) 0;
+    padding: 4px;
+    background: var(--panel-bg);
+    border-radius: var(--border-radius-sm);
 }
 
 .color-option {
-    width: 100%;
-    aspect-ratio: 1;
-    border-radius: var(--border-radius-sm);
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
     cursor: pointer;
     border: 2px solid var(--border-color);
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
     position: relative;
+    margin: auto;
+    background-clip: padding-box;
+}
+
+.color-option::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+    pointer-events: none;
 }
 
 .color-option:hover {
-    transform: scale(1.15) translateY(-2px);
-    box-shadow: var(--shadow-sm), inset 0 1px 3px rgba(0,0,0,0.1);
+    transform: scale(1.15);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     z-index: 1;
 }
 
 .color-option.active {
-    outline: 2px solid var(--accent-color);
+    border: 2px solid var(--accent-color);
     transform: scale(1.15);
-    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
-.color-option.active::after {
-    content: '✓';
+.color-option.active::before {
+    content: '';
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: white;
-    font-size: 0.9rem;
-    text-shadow: 0 0 3px rgba(0,0,0,0.5);
+    width: 6px;
+    height: 6px;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.5);
 }
 
-/* Color picker */
+/* Color Input Customization
+ * A good example of styling native HTML elements (input[type="color"])
+ * to match your app's design while keeping them functional
+ */
 .custom-color-input {
     display: flex;
     align-items: center;
@@ -84,44 +109,6 @@
     transform: scale(1.1);
 }
 
-.color-display {
-    width: 30px;
-    height: 30px;
-    border: 2px solid var(--border-color);
-    border-radius: var(--border-radius-sm);
-    position: relative;
-    overflow: hidden;
-}
-
-.color-display::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
-    pointer-events: none;
-}
-
-#color-picker {
-    width: 100%;
-    height: 30px;
-    padding: 0;
-    border: none;
-    border-radius: var(--border-radius-sm);
-    cursor: pointer;
-    overflow: hidden;
-}
-
-.tool-btn input[type="color"] {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    border: none;
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    height: 30px;
-    cursor: pointer;
-}
 
 #color-picker::-webkit-color-swatch-wrapper {
     padding: 0;
@@ -132,15 +119,24 @@
     border-radius: 4px;
 }
 
-/* Responsive styles */
+/* Responsive Design
+ * Shows how to adjust sizes and spacing for different screen sizes
+ * while maintaining the same visual design and functionality
+ */
 @media (max-width: 900px) {
-    .color-palette {
-        grid-template-columns: repeat(5, 1fr);
+    .color-option {
+        width: 22px;
+        height: 22px;
     }
 }
 
 @media (max-width: 600px) {
     .color-palette {
-        grid-template-columns: repeat(5, 1fr);
+        gap: 4px;
+    }
+    
+    .color-option {
+        width: 20px;
+        height: 20px;
     }
 }

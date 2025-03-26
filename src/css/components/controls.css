@@ -1,9 +1,28 @@
 /**
- * Digital Sketch Board - Controls Styles
- * Styles for control buttons, sliders, and interactive elements
+ * Interactive Controls Styling
+ * 
+ * This file shows how to create professional-looking UI controls:
+ * 
+ * 1. Custom Range Inputs: We style the native <input type="range"> to look better
+ *    - Creating a custom slider thumb
+ *    - Adding gradients and shadows for depth
+ *    - Smooth hover animations
+ * 
+ * 2. Tool Buttons: Modern, animated buttons with states
+ *    - Hover and active states with transitions
+ *    - Gradient overlays for visual interest
+ *    - Icon animations
+ * 
+ * 3. Action Button: A primary call-to-action button
+ *    - Gradient background
+ *    - Hover animation with light sweep effect
+ *    - Depth through shadows and transforms
  */
 
-/* Slider inputs */
+/* Custom Range Slider
+ * Here we override the default browser styles to create a
+ * consistent look across different browsers
+ */
 input[type="range"] {
     width: 100%;
     height: 6px;
@@ -17,6 +36,10 @@ input[type="range"] {
     box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
 }
 
+/* Custom Slider Thumb
+ * This is the draggable part of the slider.
+ * We make it circular and add some nice hover effects
+ */
 input[type="range"]::-webkit-slider-thumb {
     appearance: none;
     -webkit-appearance: none;
@@ -35,7 +58,9 @@ input[type="range"]::-webkit-slider-thumb:hover {
     box-shadow: 0 3px 8px rgba(0,0,0,0.3);
 }
 
-/* Tool buttons */
+/* Tool Button Grid Layout
+ * Using CSS Grid to create a responsive two-column layout
+ */
 .tool-buttons {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -43,6 +68,9 @@ input[type="range"]::-webkit-slider-thumb:hover {
     margin-bottom: var(--spacing-md);
 }
 
+/* Individual Tool Button Styling
+ * Complex button with hover effects and active states
+ */
 .tool-btn {
     display: flex;
     flex-direction: column;
@@ -59,6 +87,9 @@ input[type="range"]::-webkit-slider-thumb:hover {
     overflow: hidden;
 }
 
+/* Hover Effect Overlay
+ * Creates a subtle gradient that appears on hover
+ */
 .tool-btn::before {
     content: '';
     position: absolute;
@@ -82,6 +113,9 @@ input[type="range"]::-webkit-slider-thumb:hover {
     opacity: 1;
 }
 
+/* Active State Styling
+ * Shows when a tool is currently selected
+ */
 .tool-btn.active {
     background-color: var(--active-color);
     border-color: var(--accent-color);
@@ -90,6 +124,9 @@ input[type="range"]::-webkit-slider-thumb:hover {
     transform: scale(1.02);
 }
 
+/* Active Indicator
+ * Adds a subtle gradient line under the active tool
+ */
 .tool-btn.active::after {
     content: '';
     position: absolute;
@@ -100,6 +137,9 @@ input[type="range"]::-webkit-slider-thumb:hover {
     background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
 }
 
+/* Tool Icons
+ * Emoji icons with shadow and hover animation
+ */
 .tool-icon {
     font-size: 1.6rem;
     z-index: 1;
@@ -116,7 +156,9 @@ input[type="range"]::-webkit-slider-thumb:hover {
     font-weight: 500;
 }
 
-/* Action buttons */
+/* Action Button (Clear Canvas)
+ * Primary action button with gradient and light sweep effect
+ */
 .action-btn {
     width: 100%;
     padding: var(--spacing-md);
@@ -135,6 +177,9 @@ input[type="range"]::-webkit-slider-thumb:hover {
     overflow: hidden;
 }
 
+/* Light Sweep Animation
+ * Creates a moving highlight effect on hover
+ */
 .action-btn::before {
     content: '';
     position: absolute;
@@ -162,14 +207,11 @@ input[type="range"]::-webkit-slider-thumb:hover {
     transform: translateY(0);
 }
 
-/* Responsive styles */
-@media (max-width: 900px) {
-    .tool-buttons {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
+/* Mobile Optimizations
+ * Adjusts layout and sizing for smaller screens
+ */
 @media (max-width: 600px) {
+    /* Compact tool buttons for mobile */
     .tool-btn {
         flex-direction: row;
         justify-content: center;

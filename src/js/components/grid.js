@@ -1,21 +1,39 @@
 /**
- * Grid Component Module
- * Handles creation and manipulation of the sketch grid
+ * Drawing Grid System
+ * 
+ * This is the core drawing functionality of our Etch-A-Sketch app. Here's how it works:
+ * 
+ * 1. We create a grid of cells that you can draw on
+ * 2. We use event delegation to handle mouse/touch interactions efficiently
+ * 3. When drawing quickly, we use line interpolation to ensure no gaps
+ *    (Like connecting dots between where your mouse was and where it is now)
+ * 
+ * The grid supports both mouse and touch input, so it works on mobile too!
  */
 import { applyColor } from './color.js';
 import { showBrushPreview, clearBrushPreview } from './brush.js';
 import { calculateAffectedCells } from '../utils/utils.js';
 
-// Cache DOM references
+// Store references to DOM elements and state we'll need often
+// This is more efficient than querying the DOM each time
 let gridElement = null;
 let gridCells = [];
 let gridSize = 0;
 let lastTouchCell = null;
+let isMouseDown = false;
+
+// Track mouse state globally
+document.addEventListener('mousedown', () => isMouseDown = true);
+document.addEventListener('mouseup', () => isMouseDown = false);
 
 /**
- * Creates a grid of the specified size
- * @param {number} size - The size of the grid (size x size)
- * @param {Object} appState - The application state object
+ * Creates our drawing grid
+ * 
+ * Instead of making lots of individual <div> elements with their own event listeners,
+ * we create them all at once and use "event delegation" - this means we put one
+ * listener on the parent grid and check which cell was clicked.
+ * 
+ * This is MUCH more efficient, especially for larger grids!
  */
 export function createGrid(size, appState) {
     gridElement = document.getElementById('grid');
@@ -43,14 +61,15 @@ export function createGrid(size, appState) {
 }
 
 /**
- * Set up event delegation for the grid
- * @param {Object} appState - The application state object
+ * Initializes grid event handlers using event delegation
+ * Handles both mouse and touch interactions with interpolation support
  */
 function setupGridEvents(appState) {
     if (!gridElement._eventsInitialized) {
         // Mouse events
         gridElement.addEventListener('mousedown', e => {
             if (e.target.classList.contains('grid-cell')) {
+                appState.isDrawing = true;
                 handleCellMouseDown(e, appState);
             }
         });
@@ -63,11 +82,16 @@ function setupGridEvents(appState) {
         
         gridElement.addEventListener('mouseleave', () => {
             clearBrushPreview();
-            appState.isDrawing = false;
+            if (!isMouseDown) {
+                appState.isDrawing = false;
+                appState.lastPosition = null;
+            }
         });
         
         gridElement.addEventListener('mouseup', () => {
+            isMouseDown = false;
             appState.isDrawing = false;
+            appState.lastPosition = null;
         });
         
         // Touch events
@@ -87,6 +111,7 @@ function setupGridEvents(appState) {
             appState.isDrawing = false;
             lastTouchCell = null;
             clearBrushPreview();
+            appState.lastPosition = null;
         });
         
         gridElement._eventsInitialized = true;
@@ -94,21 +119,17 @@ function setupGridEvents(appState) {
 }
 
 /**
- * Clears the grid by recreating it with the same size
- * @param {Object} appState - The application state object
+ * Resets the grid to its initial state while maintaining current size
  */
 export function clearGrid(appState) {
     createGrid(appState.currentSize, appState);
 }
 
 /**
- * Handle mousedown event on grid cells
- * @param {Event} e - The mousedown event
- * @param {Object} appState - The application state object
+ * Initiates drawing on mouse press
  */
 function handleCellMouseDown(e, appState) {
     e.preventDefault();
-    appState.isDrawing = true;
     const cell = e.target;
     const centerRow = parseInt(cell.dataset.row);
     const centerCol = parseInt(cell.dataset.col);
@@ -116,9 +137,8 @@ function handleCellMouseDown(e, appState) {
 }
 
 /**
- * Handle mousemove event on grid cells
- * @param {Event} e - The mousemove event
- * @param {Object} appState - The application state object
+ * Handles continuous drawing with mouse movement
+ * Uses line interpolation to prevent gaps when moving quickly
  */
 function handleCellMouseMove(e, appState) {
     const cell = e.target;
@@ -129,14 +149,65 @@ function handleCellMouseMove(e, appState) {
     showBrushPreview(centerRow, centerCol, appState, gridCells, gridSize);
     
     if (appState.isDrawing) {
-        applyBrush(centerRow, centerCol, appState);
+        // Get the last position from appState or initialize it
+        if (!appState.lastPosition) {
+            appState.lastPosition = { row: centerRow, col: centerCol };
+        }
+
+        // Interpolate between last position and current position
+        const points = interpolatePoints(
+            appState.lastPosition.row,
+            appState.lastPosition.col,
+            centerRow,
+            centerCol
+        );
+
+        // Apply brush to all points along the path
+        points.forEach(point => {
+            applyBrush(point.row, point.col, appState);
+        });
+
+        // Update last position
+        appState.lastPosition = { row: centerRow, col: centerCol };
     }
 }
 
 /**
- * Handle touch start event on grid cells
- * @param {TouchEvent} e - The touch event
- * @param {Object} appState - The application state object
+ * Creates a line between two points
+ * 
+ * When drawing quickly, your mouse/finger might "jump" over some cells.
+ * To fix this, we use Bresenham's line algorithm to figure out which cells
+ * you would have drawn on if you moved more slowly.
+ * 
+ * Think of it like connecting dots between your last position and current position!
+ */
+function interpolatePoints(x1, y1, x2, y2) {
+    const points = [];
+    const dx = Math.abs(x2 - x1);
+    const dy = Math.abs(y2 - y1);
+    const sx = x1 < x2 ? 1 : -1;
+    const sy = y1 < y2 ? 1 : -1;
+    let err = dx - dy;
+
+    while (true) {
+        points.push({ row: x1, col: y1 });
+        if (x1 === x2 && y1 === y2) break;
+        const e2 = 2 * err;
+        if (e2 > -dy) {
+            err -= dy;
+            x1 += sx;
+        }
+        if (e2 < dx) {
+            err += dx;
+            y1 += sy;
+        }
+    }
+
+    return points;
+}
+
+/**
+ * Initiates drawing on touch start
  */
 function handleCellTouchStart(e, appState) {
     appState.isDrawing = true;
@@ -151,36 +222,60 @@ function handleCellTouchStart(e, appState) {
 }
 
 /**
- * Handle touch move event on grid cells
- * @param {TouchEvent} e - The touch event
- * @param {Object} appState - The application state object
+ * Handles continuous drawing with touch movement
+ * Uses line interpolation to prevent gaps when moving quickly
  */
 function handleCellTouchMove(e, appState) {
     if (!appState.isDrawing) return;
     
     const touch = e.touches[0];
     const cell = document.elementFromPoint(touch.clientX, touch.clientY);
-    if (cell && cell.classList.contains('grid-cell') && cell !== lastTouchCell) {
-        lastTouchCell = cell;
+    if (cell && cell.classList.contains('grid-cell')) {
         const centerRow = parseInt(cell.dataset.row);
         const centerCol = parseInt(cell.dataset.col);
-        applyBrush(centerRow, centerCol, appState);
+
+        // Only interpolate if we have a last position
+        if (lastTouchCell) {
+            const lastRow = parseInt(lastTouchCell.dataset.row);
+            const lastCol = parseInt(lastTouchCell.dataset.col);
+            
+            // Interpolate between last position and current position
+            const points = interpolatePoints(
+                lastRow,
+                lastCol,
+                centerRow,
+                centerCol
+            );
+
+            // Apply brush to all points along the path
+            points.forEach(point => {
+                applyBrush(point.row, point.col, appState);
+            });
+        } else {
+            // If no last position, just paint current cell
+            applyBrush(centerRow, centerCol, appState);
+        }
+        
+        lastTouchCell = cell;
     }
 }
 
 /**
- * Handle mouseleave event on grid cells
- * @param {Event} e - The mouseleave event
+ * Cleans up cell preview when mouse leaves
  */
 function handleCellMouseLeave(e) {
     e.target.classList.remove('brush-preview');
 }
 
 /**
- * Apply the brush to the grid at the specified coordinates
- * @param {number} centerRow - The row coordinate
- * @param {number} centerCol - The column coordinate
- * @param {Object} appState - The application state object
+ * Colors in the grid cells
+ * 
+ * This is where the actual drawing happens! We:
+ * 1. Figure out which cells to color based on brush size
+ * 2. Apply the current color or special effect (like rainbow mode)
+ * 
+ * The brush can be bigger than 1 cell, so we calculate all cells
+ * that should be colored for the current brush position.
  */
 export function applyBrush(centerRow, centerCol, appState) {
     const affectedCells = calculateAffectedCells(centerRow, centerCol, gridSize, appState.brushSize);

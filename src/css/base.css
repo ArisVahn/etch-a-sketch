@@ -1,9 +1,15 @@
 /**
- * Digital Sketch Board - Base Styles
- * Contains theme variables, resets, and base styles
+ * Base Styles and Theme System
+ * 
+ * This file sets up our design system using CSS Custom Properties (variables).
+ * We define colors, spacing, shadows, and other foundational styles that
+ * will be used throughout the application.
+ * 
+ * CSS variables let us change values in one place and have them update
+ * everywhere they're used. This is especially helpful for our theme system
+ * that switches between light and dark modes.
  */
 
-/* Theme variables - Light mode defaults */
 :root {
     /* Colors */
     --bg-color: #f8fafc;
@@ -50,7 +56,10 @@
     --spacing-xl: 1.75rem;
 }
 
-/* Dark mode theme variables */
+/* Dark Mode Theme
+ * When the html element has class "dark-mode", these values override
+ * our default light theme colors with darker variants
+ */
 html.dark-mode {
     --bg-color: #0f172a;
     --main-bg: #1e293b;
@@ -70,7 +79,12 @@ html.dark-mode {
     --active-color: #475569;
 }
 
-/* Reset and base styles */
+/* Base Reset and Styles
+ * These core styles ensure consistent styling across browsers by:
+ * - Using border-box sizing for predictable layouts
+ * - Removing default margins/padding
+ * - Setting up base font and color settings
+ */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -96,7 +110,11 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Main workspace layout */
+/* Main Layout Structure
+ * Defines the grid system for our two main sections:
+ * - The toolbox panel on the left
+ * - The drawing canvas on the right
+ */
 .workspace {
     display: grid;
     grid-template-columns: var(--toolbox-width) 1fr;
@@ -109,7 +127,12 @@ body {
     overflow: hidden;
 }
 
-/* Animation definitions */
+/* Animation Keyframes
+ * Smooth transitions for:
+ * - Elements fading into view
+ * - Elements scaling up when appearing
+ * These make the UI feel more polished and responsive
+ */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
@@ -124,7 +147,12 @@ body {
     animation: fadeIn 0.5s ease forwards;
 }
 
-/* Responsive design */
+/* Responsive Design
+ * Changes layout and sizing for different screen sizes:
+ * - Desktop: Two-column layout (default)
+ * - Tablet: Adjusted spacing and sizing
+ * - Mobile: Single-column layout with stacked panels 
+ */
 @media (max-width: 1200px) {
     :root {
         --toolbox-width: 260px;
@@ -135,19 +163,9 @@ body {
     .workspace {
         grid-template-columns: 1fr;
         grid-template-rows: auto 1fr;
-        gap: var(--spacing-md);
         height: auto;
         overflow-y: auto;
-        padding: var(--spacing-md);
-    }
-}
-
-@media (max-width: 600px) {
-    :root {
-        --header-height: 60px;
-    }
-    
-    .workspace {
+        gap: var(--spacing-md);
         padding: var(--spacing-md);
     }
 }

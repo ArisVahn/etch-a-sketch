@@ -1,9 +1,28 @@
 /**
- * Digital Sketch Board - Canvas Styles
- * Styles for the canvas area and drawing grid
+ * Drawing Canvas Component
+ * 
+ * This component demonstrates several advanced CSS concepts:
+ * 
+ * 1. Fluid Layout:
+ *    - Using CSS calc() for dynamic heights
+ *    - Flexbox for centering and alignment
+ *    - CSS Grid for the pixel grid system
+ * 
+ * 2. Visual Effects:
+ *    - Gradient accents
+ *    - Layered shadows
+ *    - Smooth transitions
+ * 
+ * 3. Responsive Design:
+ *    - Adapts to different screen sizes
+ *    - Maintains aspect ratio
+ *    - Touch-friendly interactions
  */
 
-/* Canvas area */
+/* Main Canvas Container
+ * Creates a responsive container that centers the drawing grid
+ * and provides visual depth through shadows and borders
+ */
 .canvas-area {
     display: flex;
     justify-content: center;
@@ -19,6 +38,10 @@
     height: calc(100vh - var(--header-height) - var(--spacing-lg) * 2);
 }
 
+/* Accent Bar
+ * Adds a colorful gradient accent at the top of the canvas
+ * using pseudo-element for layering
+ */
 .canvas-area::before {
     content: '';
     position: absolute;
@@ -30,6 +53,10 @@
     z-index: 1;
 }
 
+/* Drawing Grid
+ * The actual drawing surface using CSS Grid.
+ * Each cell is created dynamically in JavaScript.
+ */
 .drawing-grid {
     aspect-ratio: 1;
     height: calc(100% - 20px);
@@ -43,6 +70,10 @@
     position: relative;
 }
 
+/* Grid Surface Effect
+ * Adds a subtle highlight effect to the grid surface
+ * creating more visual depth
+ */
 .drawing-grid::after {
     content: '';
     position: absolute;
@@ -55,6 +86,10 @@
     box-shadow: var(--shadow-lg);
 }
 
+/* Individual Grid Cells
+ * Each cell in the drawing grid with minimal styling
+ * to ensure good performance with large grids
+ */
 .grid-cell {
     border: 1px solid var(--grid-border);
     transition: background-color 0.15s ease;
@@ -63,6 +98,10 @@
     min-height: 1px;
 }
 
+/* Brush Preview Effect
+ * Shows where the brush will paint
+ * Uses animation for better visual feedback
+ */
 .brush-preview {
     outline-width: 2px;
     outline-style: solid;
@@ -71,22 +110,23 @@
     animation: pulseOutline 1.5s ease-in-out infinite;
 }
 
+/* Brush Preview Animation
+ * Subtle pulsing effect for the brush preview
+ * Uses keyframes for smooth animation
+ */
 @keyframes pulseOutline {
     0% { outline-offset: 0; }
     50% { outline-offset: 1px; }
     100% { outline-offset: 0; }
 }
 
-/* Responsive styles */
+/* Responsive Adjustments
+ * Adapts the canvas area for different screen sizes
+ * while maintaining usability
+ */
 @media (max-width: 900px) {
     .canvas-area {
         height: 50vh;
         min-height: 300px;
-    }
-}
-
-@media (max-width: 600px) {
-    .canvas-area {
-        padding: var(--spacing-md);
     }
 }
